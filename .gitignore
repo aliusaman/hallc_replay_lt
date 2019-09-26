@@ -36,7 +36,6 @@ PARAM/SHMS/DC/CALIB
 OUTPUT
 CALIBRATION/dc_calib/scripts/HMS_*
 CALIBRATION/dc_calib/scripts/SHMS_*
-PARAM/SHMS/HODO/phodo*
 # Symbolic links
 hcana
 scratch

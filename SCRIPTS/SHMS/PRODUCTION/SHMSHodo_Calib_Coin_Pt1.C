@@ -20,6 +20,9 @@ void SHMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   vector<TString> pathList;
   pathList.push_back(".");
   pathList.push_back("./raw");
+  pathList.push_back("./raw1");
+  pathList.push_back("./raw2");
+  pathList.push_back("./raw3");
   pathList.push_back("./raw/../raw.copiedtotape");
   pathList.push_back("./cache");
 
@@ -33,6 +36,7 @@ void SHMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   gHcParms->Load(gHcParms->GetString("g_ctp_kinematics_filename"), RunNumber);
   // Load parameters for SHMS trigger configuration
   gHcParms->Load("PARAM/TRIG/tshms.param");
+  //gHcParms->Load("PARAM/TRIG/tcoin.param");
   // Load fadc debug parameters
   gHcParms->Load("PARAM/SHMS/GEN/p_fadc_debug.param");
 
@@ -51,8 +55,8 @@ void SHMSHodo_Calib_Coin_Pt1 (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   SHMS->AddEvtType(7);
   gHaApps->Add(SHMS);
   // Add Noble Gas Cherenkov to SHMS apparatus
-  THcCherenkov* ngcer = new THcCherenkov("ngcer", "Noble Gas Cherenkov");
-  SHMS->AddDetector(ngcer);
+  //THcCherenkov* ngcer = new THcCherenkov("ngcer", "Noble Gas Cherenkov");
+  //SHMS->AddDetector(ngcer);
   // Add drift chambers to SHMS apparatus
   THcDC* dc = new THcDC("dc", "Drift Chambers");
   SHMS->AddDetector(dc);

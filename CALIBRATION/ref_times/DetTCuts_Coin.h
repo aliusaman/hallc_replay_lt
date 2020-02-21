@@ -1,3 +1,4 @@
+// Stephen Kay - University of Regina - 2019 // 
 
 #ifndef DetTCuts_Coin_h
 #define DetTCuts_Coin_h
@@ -24,6 +25,8 @@ const Int_t hod_planes = 4;
 const Int_t cal_planes = 4;
 const Int_t dc_planes = 12;
 const Int_t sides = 2;
+
+Int_t AeroMultSum;
 
 const string hod_pl_names[hod_planes] = {"1x", "1y", "2x", "2y"};
 const string cal_pl_names[cal_planes] = {"1pr", "2ta", "3ta", "4ta"};
@@ -102,8 +105,9 @@ public :
    TH1F           *h1hdcTdcT[12]; // Array of 12 histograms
    TH1F           *h1hCalAdcTdcTDiff[4][2][13]; // 3D array of 4/2/13 (4 planes, 2 sides, 13 PMTs per side)
    TH1F           *h1hHodoAdcTdcTDiff[4][2][16]; // 3D array of 4/2/16 (4 planes, 2 sides, UP TO 16 PMTs per side)
+   TH2F           *h2hHodoTDiffADCAmp[4][2][16];
 
-   TH1F           *h1pHGCAdcTdcTDiff[2][4]; // Uncut/cut and by PMT
+   TH1F           *h1pHGCAdcTdcTDiff[3][4]; // Uncut/cut/Aerogel Test and by PMT
    TH2F           *h2pHGCTDiffADCAmp[4];
    TH1F           *h1pAeroAdcTdcTDiff[2][7]; // 2D array of 2/7 (2 sides, 7 PMTs per side)
    TH1F           *h1pdcTdcT[12]; // Array of 12 histograms
@@ -112,8 +116,22 @@ public :
    TH1F           *h1pPrShAdcTdcTDiff[2][2][14]; // 3D array, 2/2/14 (uncut/cut, 2 sides, 14 PMTs per side)
    TH2F           *h2pPrShTDiffADCAmp[2][14];
    TH1F           *h1pCalAdcTdcTDiff[224]; // Array of 224 histograms, 224 PMTs
+   TH2F           *h2pCalTDiffADCAmp[224];
+   //TH2F           *h2HGCxyDist[4][4];
+   TH2F           *h2HGCxyDist[4];
 
    // Readers to access the data
+   // Readers for PID/Delta cuts
+   TTreeReaderArray<Double_t> H_gtr_dp           = {fReader, "H.gtr.dp"}; 
+   TTreeReaderArray<Double_t> P_gtr_dp           = {fReader, "P.gtr.dp"}; 
+   TTreeReaderArray<Double_t> H_cal_etotnorm     = {fReader, "H.cal.etotnorm"};  
+   TTreeReaderArray<Double_t> P_cal_etotnorm     = {fReader, "P.cal.etotnorm"};
+   TTreeReaderValue<Double_t> P_hgcer_xAtCer     = {fReader, "P.hgcer.xAtCer"}; 
+   TTreeReaderValue<Double_t> P_hgcer_yAtCer     = {fReader, "P.hgcer.yAtCer"}; 
+
+   // Reader for ADC pulse amp cut
+   TTreeReaderValue<Double_t> T_coin_pFADC_TREF_ROC2_adcPulseAmpRaw = {fReader, "T.coin.pFADC_TREF_ROC2_adcPulseAmpRaw"};
+
    TTreeReaderArray<Double_t> H_hod_1x_GoodPosAdcTdcDiffTime = {fReader, "H.hod.1x.GoodPosAdcTdcDiffTime"};
    TTreeReaderArray<Double_t> H_hod_1x_GoodNegAdcTdcDiffTime = {fReader, "H.hod.1x.GoodNegAdcTdcDiffTime"};
    TTreeReaderArray<Double_t> H_hod_1y_GoodPosAdcTdcDiffTime = {fReader, "H.hod.1y.GoodPosAdcTdcDiffTime"};
@@ -122,6 +140,14 @@ public :
    TTreeReaderArray<Double_t> H_hod_2x_GoodNegAdcTdcDiffTime = {fReader, "H.hod.2x.GoodNegAdcTdcDiffTime"};
    TTreeReaderArray<Double_t> H_hod_2y_GoodPosAdcTdcDiffTime = {fReader, "H.hod.2y.GoodPosAdcTdcDiffTime"};
    TTreeReaderArray<Double_t> H_hod_2y_GoodNegAdcTdcDiffTime = {fReader, "H.hod.2y.GoodNegAdcTdcDiffTime"};
+   TTreeReaderArray<Double_t> H_hod_1x_GoodPosAdcPulseAmp    = {fReader, "H.hod.1x.GoodPosAdcPulseAmp"};   
+   TTreeReaderArray<Double_t> H_hod_1x_GoodNegAdcPulseAmp    = {fReader, "H.hod.1x.GoodNegAdcPulseAmp"};   
+   TTreeReaderArray<Double_t> H_hod_1y_GoodPosAdcPulseAmp    = {fReader, "H.hod.1y.GoodPosAdcPulseAmp"};   
+   TTreeReaderArray<Double_t> H_hod_1y_GoodNegAdcPulseAmp    = {fReader, "H.hod.1y.GoodNegAdcPulseAmp"};   
+   TTreeReaderArray<Double_t> H_hod_2x_GoodPosAdcPulseAmp    = {fReader, "H.hod.2x.GoodPosAdcPulseAmp"};   
+   TTreeReaderArray<Double_t> H_hod_2x_GoodNegAdcPulseAmp    = {fReader, "H.hod.2x.GoodNegAdcPulseAmp"};   
+   TTreeReaderArray<Double_t> H_hod_2y_GoodPosAdcPulseAmp    = {fReader, "H.hod.2y.GoodPosAdcPulseAmp"};   
+   TTreeReaderArray<Double_t> H_hod_2y_GoodNegAdcPulseAmp    = {fReader, "H.hod.2y.GoodNegAdcPulseAmp"};   
    TTreeReaderArray<Double_t> H_hod_1x_GoodPosAdcMult        = {fReader, "H.hod.1x.GoodPosAdcMult"};
    TTreeReaderArray<Double_t> H_hod_1x_GoodNegAdcMult        = {fReader, "H.hod.1x.GoodNegAdcMult"};
    TTreeReaderArray<Double_t> H_hod_1y_GoodPosAdcMult        = {fReader, "H.hod.1y.GoodPosAdcMult"};
@@ -244,6 +270,7 @@ public :
    TTreeReaderArray<Double_t> P_cal_pr_goodNegAdcMult        = {fReader, "P.cal.pr.goodNegAdcMult"};   
    TTreeReaderArray<Double_t> P_cal_fly_goodAdcTdcDiffTime   = {fReader, "P.cal.fly.goodAdcTdcDiffTime"};
    TTreeReaderArray<Double_t> P_cal_fly_goodAdcMult          = {fReader, "P.cal.fly.goodAdcMult"};
+   TTreeReaderArray<Double_t> P_cal_fly_goodAdcPulseAmp      = {fReader, "P.cal.fly.goodAdcPulseAmp"};
 
  DetTCuts_Coin(TTree * /*tree*/ =0) : fChain(0) {}
    virtual ~DetTCuts_Coin() { }

@@ -27,7 +27,7 @@ void replay_coin_scalers (Int_t RunNumber = 0, Int_t MaxEvent = 0,Int_t FirstEve
 
   // Load global parameters
   gHcParms->Define("gen_run_number", "Run Number", RunNumber);
-  gHcParms->AddString("g_ctp_database_filename", "DBASE/COIN/standard.database");
+  gHcParms->AddString("g_ctp_database_filename", "DBASE/COIN/standard_KaonLTCalib.database");
   gHcParms->Load(gHcParms->GetString("g_ctp_database_filename"), RunNumber);
   gHcParms->Load(gHcParms->GetString("g_ctp_parm_filename"));
   gHcParms->Load(gHcParms->GetString("g_ctp_kinematics_filename"), RunNumber);
@@ -39,6 +39,7 @@ void replay_coin_scalers (Int_t RunNumber = 0, Int_t MaxEvent = 0,Int_t FirstEve
   // Load the Hall C detector map
   gHcDetectorMap = new THcDetectorMap();
   gHcDetectorMap->Load("MAPS/COIN/DETEC/coin.map");
+
 
   // Add trigger apparatus
   THaApparatus* TRG = new THcTrigApp("T", "TRG");
@@ -57,6 +58,28 @@ void replay_coin_scalers (Int_t RunNumber = 0, Int_t MaxEvent = 0,Int_t FirstEve
   SHMS->AddEvtType(6);
   SHMS->AddEvtType(7);
   gHaApps->Add(SHMS);
+
+  // Add drift chambers to SHMS apparatus                                                                                                      
+  THcDC* pdc = new THcDC("dc", "Drift Chambers");
+  SHMS->AddDetector(pdc);
+  // Add hodoscope to SHMS apparatus                                                                                                           
+  THcHodoscope* phod = new THcHodoscope("hod", "Hodoscope");
+  SHMS->AddDetector(phod);
+  // Add Heavy Gas Cherenkov to SHMS apparatus                                                                                                 
+  THcCherenkov* phgcer = new THcCherenkov("hgcer", "Heavy Gas Cherenkov");
+  SHMS->AddDetector(phgcer);
+  // Add Aerogel Cherenkov to SHMS apparatus                                                                                                   
+  THcAerogel* paero = new THcAerogel("aero", "Aerogel");
+  SHMS->AddDetector(paero);
+  // Add calorimeter to SHMS apparatus                                                                                                         
+  THcShower* pcal = new THcShower("cal", "Calorimeter");
+  SHMS->AddDetector(pcal);
+
+  // Add rastered beam apparatus                                                                                                               
+  THaApparatus* pbeam = new THcRasteredBeam("P.rb", "Rastered Beamline");
+  gHaApps->Add(pbeam);
+ 
+
   THcHallCSpectrometer* HMS = new THcHallCSpectrometer("H", "HMS");
   HMS->SetEvtType(2);
   HMS->AddEvtType(4);
@@ -65,6 +88,27 @@ void replay_coin_scalers (Int_t RunNumber = 0, Int_t MaxEvent = 0,Int_t FirstEve
   HMS->AddEvtType(7);
   gHaApps->Add(HMS);
  
+  // Add drift chambers to HMS apparatus                                                                                                       
+  THcDC* hdc = new THcDC("dc", "Drift Chambers");
+  HMS->AddDetector(hdc);
+  // Add hodoscope to HMS apparatus                                                                                                            
+  THcHodoscope* hhod = new THcHodoscope("hod", "Hodoscope");
+  HMS->AddDetector(hhod);
+  // Add Cherenkov to HMS apparatus                                                                                                            
+  THcCherenkov* hcer = new THcCherenkov("cer", "Heavy Gas Cherenkov");
+  HMS->AddDetector(hcer);
+  // Add Aerogel Cherenkov to HMS apparatus                                                                                                    
+  // THcAerogel* haero = new THcAerogel("aero", "Aerogel");                                                                                    
+  // HMS->AddDetector(haero);                                                                                                                  
+  // Add calorimeter to HMS apparatus                                                                                                          
+  THcShower* hcal = new THcShower("cal", "Calorimeter");
+  HMS->AddDetector(hcal);
+
+  // Add rastered beam apparatus                                                                                                               
+  THaApparatus* hbeam = new THcRasteredBeam("H.rb", "Rastered Beamline");
+  gHaApps->Add(hbeam);
+
+
   // Add handler for EPICS events
   THaEpicsEvtHandler *hcepics = new THaEpicsEvtHandler("epics", "HC EPICS event type 180");
   gHaEvtHandlers->Add(hcepics);

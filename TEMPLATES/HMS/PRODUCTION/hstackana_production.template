@@ -60,22 +60,48 @@ Ps6_factor = {ghconfig_ti_ps_factors[5]}
 = 3/4 Triggers
 =:=:=:=:=:=:=:=:
 
-HMS 3/4 Triggers               : {H.hTRIG1.scaler} [ {H.hTRIG1.scaler/ghconfig_ti_ps_factors[0]} ]
-HMS 3/4 Triggers (current cut) : {H.hTRIG1.scalerCut} [ {H.hTRIG1.scalerCut/ghconfig_ti_ps_factors[0]} ]
-HMS 3/4 Trigger Rate           : {H.hTRIG1.scalerCut/H.1MHz.scalerTimeCut/1000.:%.3f} kHz
-Accepted HMS Triggers          : {hcut_TRIG1.npassed}
-HMS Event Types                : {HMS_Pretrig.npassed}
+HMS EL_REAL Triggers               : {H.hTRIG2.scaler} [ {H.hTRIG2.scaler/ghconfig_ti_ps_factors[2]} ]
+HMS EL_REAL Triggers (current cut) : {H.hTRIG2.scalerCut} [ {H.hTRIG2.scalerCut/ghconfig_ti_ps_factors[2]} ]
+HMS EL_REAL Trigger Rate           : {H.hTRIG2.scalerCut/H.1MHz.scalerTimeCut/1000.:%.3f} kHz
+Accepted HMS Triggers              : {hcut_TRIG2.npassed}
+HMS Event Types                    : {HMS_Pretrig.npassed}
 
-HMS Computer Live Time : {(hcut_TRIG1.npassed / H.hTRIG1.scaler)*100.0:%3.4f} % [ {(hcut_TRIG1.npassed / (H.hTRIG1.scaler/ghconfig_ti_ps_factors[0]))*100.0:%3.4f} %  ]
-HMS Computer Dead Time : {100.0 - (hcut_TRIG1.npassed / H.hTRIG1.scaler)*100.0:%3.4f} % [ {100.0 - (hcut_TRIG1.npassed / (H.hTRIG1.scaler/ghconfig_ti_ps_factors[0]))*100.0:%3.4f} %  ]
+TRIG1 Pre-Scaler  : {ghconfig_ti_ps_factors[0]}
+TRIG1 Scaler      : {H.pTRIG1.scaler}
+TRIG1 Passed      : {hcut_TRIG1.npassed}
+Scaler/Pre-Scaler : {H.pTRIG1.scaler/ghconfig_ti_ps_factors[0]}
+
+TRIG3 Pre-Scaler  : {ghconfig_ti_ps_factors[2]}
+TRIG3 Scaler      : {H.pTRIG3.scaler}
+TRIG3 Passed      : {hcut_TRIG3.npassed}
+Scaler/Pre-Scaler : {H.pTRIG3.scaler/ghconfig_ti_ps_factors[2]}
+
+TRIG5 Pre-Scaler  : {ghconfig_ti_ps_factors[4]}
+TRIG5 Scaler      : {H.pTRIG5.scaler}
+TRIG5 Passed      : {hcut_TRIG5.npassed}
+Scaler/Pre-Scaler : {H.pTRIG5.scaler/ghconfig_ti_ps_factors[4]}
+
+
+
+HMS TRIG2 Computer Live Time (HMS Singles)    : {(hcut_TRIG2.npassed / HMS_Pretrig.npassed)*100.0:%3.4f} % 
+HMS TRIG2 Computer Dead Time (HMS Singles)    : {100.0 - (hcut_TRIG2.npassed / HMS_Pretrig.npassed)*100.0:%3.4f} % 
+
+SHMS TRIG2 Computer Live Time (SHMS Singles)  : {(hcut_TRIG1.npassed / HMS_Pretrig.npassed)*100.0:%3.4f} %
+SHMS TRIG2 Computer Dead Time (SHMS Singles)  : {100.0 - (hcut_TRIG1.npassed / HMS_Pretrig.npassed)*100.0:%3.4f} %
+
+SHMS TRIG5 Computer Live Time (SHMS COIN)     : {(H.pTRIG5.scalerCut / HMS_Pretrig.npassed)*100.0:%3.4f} %
+SHMS TRIG5 Computer Dead Time (SHMS COIN)     : {100.0 - (H.pTRIG5.scalerCut / HMS_Pretrig.npassed)*100.0:%3.4f} %
+
+Total Live Time (EDTM)                        : {(hcut_edtm_accepted.npassed / H.EDTM.scaler)*100.0:%3.4f} %
+Total Dead Time (EDTM)                        : {100.0 - (hcut_edtm_accepted.npassed / H.EDTM.scaler)*100.0:%3.4f} %
 
 =:=:=:=:=:=:=:=:=:=:=:=:
 = Physics 3/4 Triggers
 =:=:=:=:=:=:=:=:=:=:=:=:
 
-Physics Triggers               : {H.hTRIG1.scaler - H.EDTM.scaler}
-Physics Triggers (current cut) : {(H.hTRIG1.scalerCut - H.EDTM.scalerCut)}
-Physics Trigger Rate           : {(H.hTRIG1.scalerCut - H.EDTM.scalerCut)/H.1MHz.scalerTimeCut/1000.:%.3f} kHz
+Physics Triggers               : {H.hTRIG2.scaler - H.EDTM.scaler}
+Physics Triggers (current cut) : {(H.hTRIG2.scalerCut - H.EDTM.scalerCut)}
+Physics Trigger Rate           : {(H.hTRIG2.scalerCut - H.EDTM.scalerCut)/H.1MHz.scalerTimeCut/1000.:%.3f} kHz
 Accepted Physics Triggers      : {hcut_physics_accepted.npassed}
 
 =:=:=:=:=:=:=:=:

@@ -66,23 +66,46 @@ SHMS 3/4 Trigger Rate           : {P.pTRIG1.scalerCut/P.1MHz.scalerTimeCut/1000.
 Accepted SHMS Triggers          : {pcut_TRIG1.npassed}
 SHMS Event Types                : {SHMS_Pretrig.npassed}
 
+TRIG1 Pre-Scaler  : {gpconfig_ti_ps_factors[0]}
+TRIG1 Scaler      : {P.pTRIG1.scaler}
+TRIG1 Passed      : {pcut_TRIG1.npassed}
+Scaler/Pre-Scaler : {P.pTRIG1.scaler/gpconfig_ti_ps_factors[0]}
 
-SHMS TRIG2 Computer Live Time : {((pcut_TRIG2.npassed) / (P.pTRIG2.scaler/gpconfig_ti_ps_factors[1]))*100.0:%3.4f} %  
+TRIG3 Pre-Scaler  : {gpconfig_ti_ps_factors[2]}
+TRIG3 Scaler      : {P.pTRIG3.scaler}
+TRIG3 Passed      : {pcut_TRIG3.npassed}
+Scaler/Pre-Scaler : {P.pTRIG3.scaler/gpconfig_ti_ps_factors[2]}
 
-SHMS TRIG3 Computer Live Time : {((pcut_TRIG3.npassed) / (P.pTRIG3.scaler/gpconfig_ti_ps_factors[2]))*100.0:%3.4f} %  
+TRIG5 Pre-Scaler  : {gpconfig_ti_ps_factors[4]}
+TRIG5 Scaler      : {P.pTRIG5.scaler}
+TRIG5 Passed      : {pcut_TRIG5.npassed}
+Scaler/Pre-Scaler : {P.pTRIG5.scaler/gpconfig_ti_ps_factors[4]}
 
 
-SHMS TRIG6 Computer Live Time : {(pcut_TRIG6.npassed / P.pTRIG6.scaler)*100.0:%3.4f} % 
-SHMS TRIG6 Computer Dead Time : {100.0 - (pcut_TRIG6.npassed / P.pTRIG6.scaler)*100.0:%3.4f} % 
+
+SHMS TRIG1 Computer Live Time : {(pcut_TRIG1.npassed / SHMS_Pretrig.npassed)*100.0:%3.4f} %
+SHMS TRIG1 Computer Dead Time : {100.0 - (pcut_TRIG1.npassed / SHMS_Pretrig.npassed)*100.0:%3.4f} %
+
+HMS TRIG3 Computer Live Time : {(pcut_TRIG3.npassed / SHMS_Pretrig.npassed)*100.0:%3.4f} %
+HMS TRIG3 Computer Dead Time : {100.0 - (pcut_TRIG3.npassed / SHMS_Pretrig.npassed)*100.0:%3.4f} %
+
+SHMS TRIG5 Computer Live Time : {(pcut_TRIG5.npassed / SHMS_Pretrig.npassed)*100.0:%3.4f} %
+SHMS TRIG5 Computer Dead Time : {100.0 - (pcut_TRIG5.npassed / SHMS_Pretrig.npassed)*100.0:%3.4f} %
+
+SHMS TRIG5 Computer Live Time : {(pcut_TRIG5.npassed / P.pTRIG5.scaler)*100.0:%3.4f} % 
+SHMS TRIG5 Computer Dead Time : {100.0 - (pcut_TRIG5.npassed / P.pTRIG5.scaler)*100.0:%3.4f} % 
+
+Total Live Time (EDTM) : {(pcut_edtm_accepted.npassed / P.EDTM.scaler)*100.0:%3.4f} %
+Total Dead Time (EDTM) : {100.0 - (pcut_edtm_accepted.npassed / P.EDTM.scaler)*100.0:%3.4f} %
 
 =:=:=:=:=:=:=:=:=:=:=:=:
 = Physics 3/4 Triggers
 =:=:=:=:=:=:=:=:=:=:=:=:
 
-Physics 3/4 Triggers           : {P.pTRIG1.scaler - P.EDTM.scaler}
-Physics 3/4 Triggers (current cut): {(P.pTRIG1.scalerCut - P.EDTM.scalerCut)}
-Physics 3/4 Trigger Rate       : {(P.pTRIG1.scalerCut- P.EDTM.scalerCut)/P.1MHz.scalerTimeCut/1000.:%.3f} kHz
-Accepted Physics Triggers      : {pcut_physics_accepted.npassed}
+Physics 3/4 Triggers               : {P.pTRIG1.scaler - P.EDTM.scaler}
+Physics 3/4 Triggers (current cut) : {(P.pTRIG1.scalerCut - P.EDTM.scalerCut)}
+Physics 3/4 Trigger Rate           : {(P.pTRIG1.scalerCut- P.EDTM.scalerCut)/P.1MHz.scalerTimeCut/1000.:%.3f} kHz
+Accepted Physics Triggers          : {pcut_physics_accepted.npassed}
 
 =:=:=:=:=:=:=:=:  
 = HMS Triggers
@@ -366,12 +389,21 @@ ptest2=p sp, f stubs           : {pTest2.npassed}
 pdid                           : {shmsScinDid.npassed}
 pdide                          : {shmsScinDide.npassed}
 pdidh                          : {shmsScinDidh.npassed}
+pdidpi			       : {shmsScinDidpi.npassed}
+pdidp			       : {shmsScinDidp.npassed}
 pscinshould                    : {shmsScinShould.npassed}
 pscinshoulde                   : {shmsScinShoulde.npassed}
-pscinshouh                     : {shmsScinShouldh.npassed}
+pscinshouldh                   : {shmsScinShouldh.npassed}
+pscinshouldpi		       : {shmsScinShouldpi.npassed}
+pscinshouldp		       : {shmsScinShouldp.npassed}
+
 SING FID TRACK EFFIC           : {shmsScinDid.npassed / (shmsScinShould.npassed+0.0001):%8.4f} +- {(sqrt(shmsScinShould.npassed-shmsScinDid.npassed) / (shmsScinShould.npassed+.0001)):%8.4f}
+
 E SING FID TRACK EFFIC         : {shmsScinDide.npassed / (shmsScinShoulde.npassed+0.0001):%8.4f} +- {(sqrt(shmsScinShoulde.npassed-shmsScinDide.npassed) / (shmsScinShoulde.npassed+.0001)):%8.4f}
 HADRON SING FID TRACK EFFIC    : {shmsScinDidh.npassed / (shmsScinShouldh.npassed+0.0001):%8.4f} +- {(sqrt(shmsScinShouldh.npassed-shmsScinDidh.npassed) / (shmsScinShouldh.npassed+.0001)):%8.4f}
+Pi SING FID TRACK EFFIC        : {shmsScinDidpi.npassed / (shmsScinShouldpi.npassed+0.0001):%8.4f} +- {(sqrt(shmsScinShouldpi.npassed-shmsScinDidpi.npassed) / (shmsScinShouldpi.npassed+.0001)):%8.4f}
+P SING FID TRACK EFFIC         : {shmsScinDidp.npassed / (shmsScinShouldp.npassed+0.0001):%8.4f} +- {(sqrt(shmsScinShouldp.npassed-shmsScinDidp.npassed) / (shmsScinShouldp.npassed+.0001)):%8.4f}
+
 
 ***************
 * HGC Cerenkov 

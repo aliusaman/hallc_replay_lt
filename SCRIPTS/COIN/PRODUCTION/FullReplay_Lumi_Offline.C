@@ -32,7 +32,7 @@ void FullReplay_Lumi_Offline (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   const char* ROOTFileNamePattern = "ROOTfiles/Lumi_coin_replay_production_Offline_%d_%d.root";
   // Load global parameters
   gHcParms->Define("gen_run_number", "Run Number", RunNumber);
-  gHcParms->AddString("g_ctp_database_filename", "DBASE/COIN/standard_Offline.database");
+  gHcParms->AddString("g_ctp_database_filename", "DBASE/COIN/standard_KaonLTCalib.database");
   gHcParms->Load(gHcParms->GetString("g_ctp_database_filename"), RunNumber);
   gHcParms->Load(gHcParms->GetString("g_ctp_parm_filename"));
   gHcParms->Load(gHcParms->GetString("g_ctp_kinematics_filename"), RunNumber);
@@ -238,14 +238,18 @@ void FullReplay_Lumi_Offline (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Define output ROOT file
   analyzer->SetOutFile(ROOTFileName.Data());
   // Define DEF-file+
-  analyzer->SetOdefFile("DEF-files/COIN/PRODUCTION/coin_production_hElec_pProt.def");
+  //analyzer->SetOdefFile("DEF-files/COIN/PRODUCTION/coin_production_hElec_pProt.def");
+  analyzer->SetOdefFile("UTIL_KAONLT/DEF-files/luminosity_coin_production.def");
   // Define cuts file
-  analyzer->SetCutFile("UTIL_PION/DEF-files/luminosity_coin_production_cuts.def");  // optional
+  //analyzer->SetCutFile("UTIL_PION/DEF-files/luminosity_coin_production_cuts.def");  // optional
+  analyzer->SetCutFile("UTIL_KAONLT/DEF-files/luminosity_coin_production_cuts.def");  // optional 
   // File to record accounting information for cuts
+  analyzer->SetSummaryFile(Form("UTIL_KAONLT/REPORT_OUTPUT/COIN/PRODUCTION/summary_production_%d_%d.report", RunNumber, MaxEvent));  // optional
   //analyzer->SetSummaryFile(Form("REPORT_OUTPUT/COIN/PRODUCTION/summary_production_%d_%d.report", RunNumber, MaxEvent));  // optional
   // Start the actual analysis.
   analyzer->Process(run);
   // Create report file from template	       
   //analyzer->PrintReport("UTIL_PION/TEMPLATES/COIN/coin_production.template", Form("UTIL_PION/REPORT_OUTPUT/COIN/PRODUCTION/PionLT_replay_coin_production_%d_%d.report", RunNumber, MaxEvent)); // optional}
-  
+  analyzer->PrintReport("TEMPLATES/COIN/PRODUCTION/coin_production_new.template",
+			Form("UTIL_PION/REPORT_OUTPUT/COIN/PRODUCTION/PionLT_replay_coin_production_%d_%d.report", RunNumber, MaxEvent)); // optional}
 }

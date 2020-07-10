@@ -60,9 +60,9 @@ hstub_max_xpdiff = .05
 
 ; if both hsel_using_scin = 0 and hsel_using_prune = 0 then best chi2 track is used.
 ; hsel_using_scin         uses scintillator for track selection
-  hsel_using_scin = 0
+  hsel_using_scin = 1
 ; hsel_using_prune         using prune
-  hsel_using_prune = 1
+;  hsel_using_prune = 1
 
 
 ; parameters used in selecting tracks for Hodoscope efficiency in THcHodoEff.cxx

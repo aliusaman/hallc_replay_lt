@@ -23,6 +23,7 @@ void FullReplay (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   pathList.push_back("./raw1");
   pathList.push_back("./raw2");
   pathList.push_back("./raw3");
+  pathList.push_back("./raw4");
   pathList.push_back("./raw/../raw.copiedtotape");
   pathList.push_back("./cache");
 
@@ -248,19 +249,15 @@ void FullReplay (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Define output ROOT file
   analyzer->SetOutFile(ROOTFileName.Data());
   // Define DEF-file+
-  //analyzer->SetOdefFile("DEF-files/COIN/PRODUCTION/coin_production_hElec_pProt.def");
-  analyzer->SetOdefFile("DEF-files/SHMS/PRODUCTION/pstackana_production.def");
+  analyzer->SetOdefFile("DEF-files/COIN/PRODUCTION/coin_production_hElec_pProt.def");
   // Define cuts file
-  // analyzer->SetCutFile("DEF-files/COIN/PRODUCTION/CUTS/coin_production_cuts.def");  // optional
-  analyzer->SetCutFile("DEF-files/SHMS/PRODUCTION/CUTS/pstackana_production_cuts.def");
-  //analyzer->SetCutFile("DEF-files/COIN/PRODUCTION/CUTS/luminosity_coin_production_cuts.def");  // optional
+  analyzer->SetCutFile("DEF-files/COIN/PRODUCTION/CUTS/coin_production_cuts.def");  // optional
   // File to record accounting information for cuts
   analyzer->SetSummaryFile(Form("REPORT_OUTPUT/COIN/PRODUCTION/summary_production_%d_%d.report", RunNumber, MaxEvent));  // optional
   // Start the actual analysis.
   analyzer->Process(run);
   // Create report file from template
-  //analyzer->PrintReport("TEMPLATES/COIN/PRODUCTION/coin_production.template",
-  analyzer->PrintReport("TEMPLATES/SHMS/PRODUCTION/pstackana_production.template",
+  analyzer->PrintReport("TEMPLATES/COIN/PRODUCTION/coin_production_new.template",
   Form("REPORT_OUTPUT/COIN/PRODUCTION/replay_coin_production_%d_%d.report", RunNumber, MaxEvent));  // optional
 
 }
